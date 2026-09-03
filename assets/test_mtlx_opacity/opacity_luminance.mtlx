@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<materialx version="1.39" colorspace="lin_rec709">
+  <constant name="opacity_color" type="color3">
+    <input name="value" type="color3" value="1.0, 1.0, 1.0" />
+  </constant>
+  <luminance name="opacity_luminance" type="color3">
+    <input name="in" type="color3" nodename="opacity_color" />
+    <input name="lumacoeffs" type="color3" value="0.0, 0.0, 0.0" />
+  </luminance>
+  <extract name="opacity" type="float">
+    <input name="in" type="color3" nodename="opacity_luminance" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <oren_nayar_diffuse_bsdf name="diffuse" type="BSDF" />
+  <surface name="surface" type="surfaceshader">
+    <input name="bsdf" type="BSDF" nodename="diffuse" />
+    <input name="opacity" type="float" nodename="opacity" />
+  </surface>
+  <surfacematerial name="M" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="surface" />
+  </surfacematerial>
+</materialx>

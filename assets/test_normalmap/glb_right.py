@@ -6,7 +6,6 @@ from typing import Any
 
 import falcor2 as f2
 import slangpy as spy
-from falcor2.importers import import_scene
 from normalmap_texture import (
     DEFAULT_NORMAL_MAP_PATH,
     assign_normalmap_texture_to_plane_materials,
@@ -47,7 +46,7 @@ def create_scene(
     height: int = HEIGHT,
     normalmap_path: str | Path | None = None,
 ) -> tuple[f2.Scene, f2.Camera, dict[str, Any]]:
-    importer_scene = import_scene(SCENE_PATH.resolve())
+    importer_scene = f2.import_scene(SCENE_PATH.resolve())
     if importer_scene is None:
         raise RuntimeError(f"Failed to load scene: {SCENE_PATH}")
     if len(importer_scene.cameras) == 0:
@@ -99,7 +98,7 @@ def create_scene(
 
     imported_camera = importer_scene.cameras[0]
     imported_light_count = len(importer_scene.lights)
-    scene = f2.Scene.create(device, importer_scene)
+    scene = f2.Scene.from_importer_scene(device, importer_scene)
     normalmap_source_path = Path(normalmap_path).resolve() if normalmap_path is not None else None
     normalmap_left_label = "OpenGL" if normalmap_path is None else "Orig"
     normalmap_right_label = "DirectX" if normalmap_path is None else "Flipped"

@@ -1,0 +1,49 @@
+// SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+mdl 1.6;
+
+import ::df::*;
+import ::state::*;
+import ::tex::*;
+
+material cutout_material(float opacity)
+= material(
+    surface: material_surface(
+        scattering: df::diffuse_reflection_bsdf(tint: color(0.8, 0.2, 0.1))
+    ),
+    geometry: material_geometry(cutout_opacity: opacity)
+);
+
+export material opaque()
+= cutout_material(1.0);
+
+export material transparent()
+= cutout_material(0.0);
+
+export material constant_half()
+= cutout_material(0.5);
+
+export material parameterized(float opacity = 0.5)
+= cutout_material(opacity);
+
+export material textured(
+    uniform texture_2d opacity_texture = texture_2d(
+        "./opacity_alpha.png",
+        ::tex::gamma_linear
+    )
+)
+= let {
+    float3 texture_coordinate = state::texture_coordinate(0);
+    float2 uv = float2(texture_coordinate.x, texture_coordinate.y);
+    float opacity = tex::lookup_float4(opacity_texture, uv).w;
+} in cutout_material(opacity);
+
+export material transmissive_opaque()
+= material(
+    thin_walled: true,
+    surface: material_surface(
+        scattering: df::specular_bsdf(color(1.0), df::scatter_transmit)
+    ),
+    geometry: material_geometry(cutout_opacity: 1.0)
+);
