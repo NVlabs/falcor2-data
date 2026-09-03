@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<materialx version="1.39" colorspace="lin_rec709">
+  <oren_nayar_diffuse_bsdf name="diffuse" type="BSDF" />
+  <surface name="background" type="surfaceshader">
+    <input name="bsdf" type="BSDF" nodename="diffuse" />
+    <input name="opacity" type="float" value="0.2" />
+  </surface>
+  <surface name="foreground" type="surfaceshader">
+    <input name="bsdf" type="BSDF" nodename="diffuse" />
+    <input name="opacity" type="float" value="2.0" />
+  </surface>
+  <mix name="surface_mix" type="surfaceshader">
+    <input name="bg" type="surfaceshader" nodename="background" />
+    <input name="fg" type="surfaceshader" nodename="foreground" />
+    <input name="mix" type="float" value="0.25" />
+  </mix>
+  <surfacematerial name="M" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="surface_mix" />
+  </surfacematerial>
+</materialx>

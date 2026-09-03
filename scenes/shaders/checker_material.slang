@@ -12,11 +12,15 @@ public struct CheckerMaterialInstance : IMaterialInstance
     public float3 albedo;
     public LambertDiffuseBRDF brdf;
 
-    public float3 eval<S : ISampleGenerator>(const SurfaceInteraction si, const float3 wo_ws, inout S sg)
+    public BSDFEval eval_with_pdf<let Hints : BSDFEvalHints = BSDFEvalHints::both, S : ISampleGenerator>(
+        const SurfaceInteraction si,
+        const float3 wo_ws,
+        inout S sg
+    )
     {
         float3 wi_ls = shading_frame_ws.to_local(si.wi_ws);
         float3 wo_ls = shading_frame_ws.to_local(wo_ws);
-        return brdf.eval(wi_ls, wo_ls, sg, BSDFContext());
+        return brdf.eval_with_pdf(wi_ls, wo_ls, sg, BSDFContext());
     }
 
     public bool sample<S : ISampleGenerator>(const SurfaceInteraction si, inout S sg, out MaterialSample sample)
@@ -30,13 +34,6 @@ public struct CheckerMaterialInstance : IMaterialInstance
         sample.weight = bsdf_sample.weight;
         sample.flags = bsdf_sample.flags;
         return valid;
-    }
-
-    public float eval_pdf(const SurfaceInteraction si, const float3 wo_ws)
-    {
-        float3 wi_ls = shading_frame_ws.to_local(si.wi_ws);
-        float3 wo_ls = shading_frame_ws.to_local(wo_ws);
-        return brdf.eval_pdf(wi_ls, wo_ls, BSDFContext());
     }
 
     public MaterialProperties collect_properties(const SurfaceInteraction si)

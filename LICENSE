@@ -63,6 +63,15 @@ assets/mdl_sdk_examples
 NVidia BSD-3-Clause: assets/mdl_sdk_examples/LICENSE
 CC0-1.0 for resources: assets/mdl_sdk_examples/LICENSE_IMAGES.md
 
+assets/standard_shader_ball
+CC-BY-4.0: assets/standard_shader_ball/LICENSE
+
+assets/test_mdl_opacity
+Apache-2.0: assets/test_mdl_opacity/LICENSE
+
+assets/test_mtlx_opacity
+Apache-2.0: assets/test_mtlx_opacity/LICENSE
+
 assets/test_normalmap
 Apache-2.0: assets/test_normalmap/LICENSE
 MIT: assets/test_normalmap/LICENSE

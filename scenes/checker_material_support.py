@@ -8,24 +8,24 @@ from typing import Any
 
 import falcor2 as f2
 import slangpy as spy
-from falcor2.reflection import Property
+from falcor2.reflection import reflected_property
 
 
 SLANG_SOURCE_PATH = Path(__file__).resolve().parent / "shaders" / "checker_material.slang"
 
 
 class CheckerMaterial(f2.Material):
-    color_a = Property(
+    color_a = reflected_property(
         spy.float3(0.92, 0.62, 0.24),
         doc="First checker color",
         on_change=lambda self: self.mark_dirty(f2.Material.DirtyFlags.properties),
     )
-    color_b = Property(
+    color_b = reflected_property(
         spy.float3(0.10, 0.18, 0.35),
         doc="Second checker color",
         on_change=lambda self: self.mark_dirty(f2.Material.DirtyFlags.properties),
     )
-    scale = Property(
+    scale = reflected_property(
         12.0,
         doc="Checker frequency in UV space",
         value_range=(1.0, 128.0),

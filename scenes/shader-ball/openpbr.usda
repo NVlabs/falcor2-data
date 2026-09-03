@@ -1,0 +1,78 @@
+#usda 1.0
+(
+    defaultPrim = "standard_shader_ball_scene"
+    subLayers = [
+        @../../assets/standard_shader_ball/standard_shader_ball_scene.usda@
+    ]
+)
+
+over "standard_shader_ball_scene" (
+    variants = {
+        string surface_geometry = "triangulated"
+    }
+)
+{
+    over "materials"
+    {
+        def Material "falcor_openpbr"
+        {
+            token outputs:falcor:surface.connect = </standard_shader_ball_scene/materials/falcor_openpbr/FalcorSurface.outputs:surface>
+
+            def Shader "FalcorSurface"
+            {
+                uniform token info:id = "FalcorOpenPBRMaterial"
+                float inputs:base_weight = 1
+                color3f inputs:base_color = (0.18, 0.18, 0.18)
+                float inputs:base_metalness = 0
+                float inputs:specular_weight = 1
+                float inputs:specular_roughness = 0.25
+                float inputs:specular_ior = 1.5
+                token outputs:surface
+            }
+        }
+    }
+
+    over "shader_ball"
+    {
+        over "material_surface" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </standard_shader_ball_scene/materials/falcor_openpbr>
+        }
+    }
+
+    over "lights"
+    {
+        over "emitterLeft"
+        {
+            over "light"
+            {
+                custom bool falcor:geometryVisible = 1
+            }
+        }
+
+        over "emitterTop"
+        {
+            over "light0"
+            {
+                custom bool falcor:geometryVisible = 1
+            }
+
+            over "light1"
+            {
+                custom bool falcor:geometryVisible = 1
+            }
+
+            over "light2"
+            {
+                custom bool falcor:geometryVisible = 1
+            }
+
+            over "light3"
+            {
+                custom bool falcor:geometryVisible = 1
+            }
+        }
+    }
+}

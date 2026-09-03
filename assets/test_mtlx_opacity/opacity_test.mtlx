@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<materialx version="1.39" colorspace="lin_rec709">
+  <oren_nayar_diffuse_bsdf name="diffuse" type="BSDF">
+    <input name="color" type="color3" value="0.8, 0.0, 0.0" />
+  </oren_nayar_diffuse_bsdf>
+  <uniform_edf name="emission" type="EDF">
+    <input name="color" type="color3" value="1.0, 0.0, 0.0" />
+  </uniform_edf>
+  <surface name="surface" type="surfaceshader">
+    <input name="bsdf" type="BSDF" nodename="diffuse" />
+    <input name="edf" type="EDF" nodename="emission" />
+    <input name="opacity" type="float" value="0.5" />
+  </surface>
+  <surfacematerial name="M" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="surface" />
+  </surfacematerial>
+  <image name="opacity_image" type="color4">
+    <input name="file" type="filename" value="opacity_alpha.png" colorspace="lin_rec709" />
+  </image>
+  <extract name="opacity_alpha" type="float">
+    <input name="in" type="color4" nodename="opacity_image" />
+    <input name="index" type="integer" value="3" />
+  </extract>
+  <surface name="textured_surface" type="surfaceshader">
+    <input name="bsdf" type="BSDF" nodename="diffuse" />
+    <input name="edf" type="EDF" nodename="emission" />
+    <input name="opacity" type="float" nodename="opacity_alpha" />
+  </surface>
+  <surfacematerial name="Textured" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="textured_surface" />
+  </surfacematerial>
+</materialx>
