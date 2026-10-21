@@ -17,7 +17,7 @@ SCENE_PATH = Path(__file__).with_name("glb_bottom.glb")
 WIDTH = 1600
 HEIGHT = 900
 FOV_Y = 22.895194
-LIGHT_RADIANCE = spy.float3(8000.0, 8000.0, 8000.0)
+LIGHT_INTENSITY = 8000.0
 LIGHT_CUTOFF_ANGLE = 0.53
 
 
@@ -52,27 +52,28 @@ def create_scene(
     if len(importer_scene.cameras) == 0:
         raise RuntimeError(f"Scene has no camera: {SCENE_PATH}")
 
-    plane_material_name: str | None = None
+    plane_material_index: int | None = None
     sphere_had_missing_material = False
     for mesh in importer_scene.meshes:
         mesh_name = mesh.name.lower()
         for subgeometry in mesh.subgeometries:
             if "plane" in mesh_name:
-                if subgeometry.material_name == "":
+                if subgeometry.material_index < 0:
                     raise RuntimeError(f"Plane mesh has no material: {SCENE_PATH}")
-                plane_material_name = subgeometry.material_name
-    if plane_material_name is None:
+                plane_material_index = subgeometry.material_index
+    if plane_material_index is None:
         raise RuntimeError(f"Scene has no plane material binding: {SCENE_PATH}")
 
+    sphere_material_index = len(importer_scene.materials)
     meshes = list(importer_scene.meshes)
     for mesh_index, mesh in enumerate(meshes):
         mesh_name = mesh.name.lower()
         subgeometries = list(mesh.subgeometries)
         for subgeometry in subgeometries:
-            if subgeometry.material_name != "":
+            if subgeometry.material_index >= 0:
                 continue
             if "sphere" in mesh_name:
-                subgeometry.material_name = "normalmap_default_sphere_standard"
+                subgeometry.material_index = sphere_material_index
                 sphere_had_missing_material = True
             else:
                 raise RuntimeError(f"Mesh '{mesh.name}' has no material: {SCENE_PATH}")
@@ -138,7 +139,7 @@ def create_scene(
     light_entity.set_world_transform(f2.Transform(sun_matrix))
     parity_light = light_entity.create_component(f2.DistantLight)
     parity_light.name = "Parity Sun"
-    parity_light.radiance = LIGHT_RADIANCE
+    parity_light.intensity = LIGHT_INTENSITY
     parity_light.cutoff_angle = LIGHT_CUTOFF_ANGLE
 
     sphere_material_names: list[str] = []

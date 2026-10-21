@@ -1,0 +1,42 @@
+#usda 1.0
+(metersPerUnit = 1
+ upAxis = "Y")
+def BasisCurves "Flat" {
+ uniform token type = "linear"
+ uniform token basis = "bezier"
+ uniform token wrap = "nonperiodic"
+ int[] curveVertexCounts = [5]
+ point3f[] points = [(0,3,0), (2,3,0), (4,3,0), (6,3,0), (8,3,0)]
+ float[] widths = [1.2] (interpolation = "constant")
+ bool doubleSided = true
+ normal3f[] normals = [(0,0,1)] (interpolation = "constant")
+}
+def BasisCurves "LinearTwist" {
+ uniform token type = "linear"
+ uniform token basis = "bezier"
+ uniform token wrap = "nonperiodic"
+ int[] curveVertexCounts = [5]
+ point3f[] points = [(0,0,0), (2,0,0), (4,0,0), (6,0,0), (8,0,0)]
+ float[] widths = [1.2] (interpolation = "constant")
+ bool doubleSided = true
+ normal3f[] normals = [(0,0,1), (0,-1,0), (0,0,-1), (0,1,0), (0,0,1)] (interpolation = "varying")
+}
+def BasisCurves "CubicTwist" {
+ uniform token type = "cubic"
+ uniform token basis = "bezier"
+ uniform token wrap = "nonperiodic"
+ int[] curveVertexCounts = [13]
+ point3f[] points = [(0,-3,0), (0.66666667,-3,0), (1.3333333,-3,0), (2,-3,0), (2.6666667,-3,0), (3.3333333,-3,0), (4,-3,0), (4.6666667,-3,0), (5.3333333,-3,0), (6,-3,0), (6.6666667,-3,0), (7.3333333,-3,0), (8,-3,0)]
+ float[] widths = [1.2] (interpolation = "constant")
+ bool doubleSided = true
+ normal3f[] normals = [(0,0,1), (0,-1,0), (0,0,-1), (0,1,0), (0,0,1)] (interpolation = "varying")
+}
+def BasisCurves "Round" {
+ uniform token type = "linear"
+ uniform token basis = "bezier"
+ uniform token wrap = "nonperiodic"
+ int[] curveVertexCounts = [5]
+ point3f[] points = [(0,-6,0), (2,-6,0), (4,-6,0), (6,-6,0), (8,-6,0)]
+ float[] widths = [1.2] (interpolation = "constant")
+ bool doubleSided = true
+}

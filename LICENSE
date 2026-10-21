@@ -66,8 +66,15 @@ CC0-1.0 for resources: assets/mdl_sdk_examples/LICENSE_IMAGES.md
 assets/standard_shader_ball
 CC-BY-4.0: assets/standard_shader_ball/LICENSE
 
+assets/test_material_aovs
+Apache-2.0: assets/test_material_aovs/LICENSE
+
 assets/test_mdl_opacity
 Apache-2.0: assets/test_mdl_opacity/LICENSE
+
+assets/test_mesh_motion
+LicenseRef-TOST-1.0 for OpenUSD arm samples: assets/test_mesh_motion/LICENSE.md
+Apache-2.0 for Falcor2 metadata: assets/test_mesh_motion/LICENSE.md
 
 assets/test_mtlx_opacity
 Apache-2.0: assets/test_mtlx_opacity/LICENSE
@@ -75,6 +82,10 @@ Apache-2.0: assets/test_mtlx_opacity/LICENSE
 assets/test_normalmap
 Apache-2.0: assets/test_normalmap/LICENSE
 MIT: assets/test_normalmap/LICENSE
+
+assets/test_usd_ribbons
+LicenseRef-TOST-1.0 for the OpenUSD example: assets/test_usd_ribbons/LICENSE.md
+Apache-2.0 for Falcor2 fixtures: assets/test_usd_ribbons/LICENSE.md
 
 assets/test_usd_importer
 Apache-2.0: assets/test_usd_importer/LICENSE

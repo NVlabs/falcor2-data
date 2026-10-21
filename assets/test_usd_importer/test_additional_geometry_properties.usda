@@ -1,0 +1,52 @@
+#usda 1.0
+(
+    defaultPrim = "AdditionalGeometryProperties"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Mesh "AdditionalGeometryProperties"
+{
+    uniform token subdivisionScheme = "none"
+    int[] faceVertexCounts = [3, 3]
+    int[] faceVertexIndices = [0, 1, 2, 3, 4, 5]
+    point3f[] points = [
+        (0, 0, 0), (1, 0, 0), (0, 1, 0),
+        (2, 0, 0), (3, 0, 0), (2, 1, 0)
+    ]
+
+    texCoord2f[] primvars:st = [
+        (0, 0), (1, 0), (0, 1), (2, 0), (3, 0), (2, 1)
+    ] (
+        interpolation = "vertex"
+    )
+    texCoord2f[] primvars:st1 = [(10, 0), (11, 0), (10, 1), (11, 1)] (
+        interpolation = "faceVarying"
+    )
+    int[] primvars:st1:indices = [0, 1, 2, 1, 3, 2]
+    texCoord2f[] primvars:st2 = [(20, 0), (21, 0), (20, 1), (22, 0), (23, 0), (22, 1)] (
+        interpolation = "vertex"
+    )
+    texCoord2f[] primvars:st3 = [(30, 0), (31, 0), (30, 1), (32, 0), (33, 0), (32, 1)] (
+        interpolation = "vertex"
+    )
+    texCoord2f[] primvars:st4 = [(40, 0), (41, 0), (40, 1), (42, 0), (43, 0), (42, 1)] (
+        interpolation = "vertex"
+    )
+    texCoord2f[] primvars:st5 = [(50, 0), (51, 0), (50, 1), (52, 0), (53, 0), (52, 1)] (
+        interpolation = "vertex"
+    )
+    texCoord2f[] primvars:st6 = [(60, 0), (61, 0), (60, 1), (62, 0), (63, 0), (62, 1)] (
+        interpolation = "vertex"
+    )
+    texCoord2f[] primvars:st7 = [(70, 0), (71, 0), (70, 1), (72, 0), (73, 0), (72, 1)] (
+        interpolation = "vertex"
+    )
+
+    point3f[] primvars:Pref = [
+        (0, 0, 10), (1, 0, 10), (0, 1, 10),
+        (2, 0, 10), (3, 0, 10), (2, 1, 10)
+    ] (
+        interpolation = "vertex"
+    )
+}
