@@ -1,0 +1,50 @@
+#usda 1.0
+# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "World"
+{
+    def Material "Material"
+    {
+        token outputs:mtlx:surface.connect = </World/Material/surface.outputs:out>
+        def Shader "pref"
+        {
+            uniform token info:id = "ND_geompropvalue_vector3"
+            string inputs:geomprop = "Pref"
+            float3 inputs:default = (0.9, 0.8, 0.7)
+            float3 outputs:out
+        }
+        def Shader "color"
+        {
+            uniform token info:id = "ND_convert_vector3_color3"
+            float3 inputs:in.connect = </World/Material/pref.outputs:out>
+            color3f outputs:out
+        }
+        def Shader "surface"
+        {
+            uniform token info:id = "ND_standard_surface_surfaceshader"
+            color3f inputs:base_color.connect = </World/Material/color.outputs:out>
+            float inputs:specular = 0
+            token outputs:out
+        }
+    }
+    def Mesh "Triangle" (
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        uniform token subdivisionScheme = "none"
+        point3f[] points = [(0, 0, 0), (1, 0, 0), (0, 1, 0)]
+        int[] faceVertexCounts = [3]
+        int[] faceVertexIndices = [0, 1, 2]
+        # A modeller/shader contract, not an alias for current points.
+        point3f[] primvars:Pref = [(0.1, 0.2, 0.3), (0.4, 0.5, 0.6), (0.7, 0.8, 0.9)] (
+            interpolation = "vertex"
+        )
+        rel material:binding = </World/Material>
+    }
+}

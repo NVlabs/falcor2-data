@@ -1,0 +1,198 @@
+#usda 1.0
+(metersPerUnit = 1
+ upAxis = "Y")
+def Camera "Camera" {
+ token projection = "orthographic"
+ float horizontalAperture = 80
+ float verticalAperture = 80
+ double3 xformOp:translate = (3,0,10)
+ uniform token[] xformOpOrder = ["xformOp:translate"]
+}
+
+def Material "Unconnected" {
+ token outputs:surface.connect = </Unconnected/Surface.outputs:surface>
+ def Shader "Surface" {
+  uniform token info:id = "UsdPreviewSurface"
+  color3f inputs:diffuseColor = (0,0,0)
+  color3f inputs:specularColor = (0,0,0)
+  int inputs:useSpecularWorkflow = 0
+  float inputs:roughness = 1
+  color3f inputs:emissiveColor.connect = </Unconnected/Texture.outputs:rgb>
+  token outputs:surface
+ }
+ def Shader "Texture" {
+  uniform token info:id = "UsdUVTexture"
+  asset inputs:file = @uv_grid.png@ (colorSpace = "sRGB")
+  token inputs:sourceColorSpace = "sRGB"
+  token inputs:wrapS = "repeat"
+  token inputs:wrapT = "repeat"
+
+  float3 outputs:rgb
+ }
+}
+
+def Material "MissingST" {
+ token outputs:surface.connect = </MissingST/Surface.outputs:surface>
+ def Shader "Surface" {
+  uniform token info:id = "UsdPreviewSurface"
+  color3f inputs:diffuseColor = (0,0,0)
+  color3f inputs:specularColor = (0,0,0)
+  int inputs:useSpecularWorkflow = 0
+  float inputs:roughness = 1
+  color3f inputs:emissiveColor.connect = </MissingST/Texture.outputs:rgb>
+  token outputs:surface
+ }
+ def Shader "Texture" {
+  uniform token info:id = "UsdUVTexture"
+  asset inputs:file = @uv_grid.png@ (colorSpace = "sRGB")
+  token inputs:sourceColorSpace = "sRGB"
+  token inputs:wrapS = "repeat"
+  token inputs:wrapT = "repeat"
+  float2 inputs:st.connect = </MissingST/Reader.outputs:result>
+  float3 outputs:rgb
+ }
+ def Shader "Reader" {
+  uniform token info:id = "UsdPrimvarReader_float2"
+  string inputs:varname = "st"
+
+  float2 outputs:result
+ }
+}
+
+def Material "ReaderFallback" {
+ token outputs:surface.connect = </ReaderFallback/Surface.outputs:surface>
+ def Shader "Surface" {
+  uniform token info:id = "UsdPreviewSurface"
+  color3f inputs:diffuseColor = (0,0,0)
+  color3f inputs:specularColor = (0,0,0)
+  int inputs:useSpecularWorkflow = 0
+  float inputs:roughness = 1
+  color3f inputs:emissiveColor.connect = </ReaderFallback/Texture.outputs:rgb>
+  token outputs:surface
+ }
+ def Shader "Texture" {
+  uniform token info:id = "UsdUVTexture"
+  asset inputs:file = @uv_grid.png@ (colorSpace = "sRGB")
+  token inputs:sourceColorSpace = "sRGB"
+  token inputs:wrapS = "repeat"
+  token inputs:wrapT = "repeat"
+  float2 inputs:st.connect = </ReaderFallback/Reader.outputs:result>
+  float3 outputs:rgb
+ }
+ def Shader "Reader" {
+  uniform token info:id = "UsdPrimvarReader_float2"
+  string inputs:varname = "st"
+  float2 inputs:fallback = (0.25,0.75)
+  float2 outputs:result
+ }
+}
+
+def Material "AuthoredST" {
+ token outputs:surface.connect = </AuthoredST/Surface.outputs:surface>
+ def Shader "Surface" {
+  uniform token info:id = "UsdPreviewSurface"
+  color3f inputs:diffuseColor = (0,0,0)
+  color3f inputs:specularColor = (0,0,0)
+  int inputs:useSpecularWorkflow = 0
+  float inputs:roughness = 1
+  color3f inputs:emissiveColor.connect = </AuthoredST/Texture.outputs:rgb>
+  token outputs:surface
+ }
+ def Shader "Texture" {
+  uniform token info:id = "UsdUVTexture"
+  asset inputs:file = @uv_grid.png@ (colorSpace = "sRGB")
+  token inputs:sourceColorSpace = "sRGB"
+  token inputs:wrapS = "repeat"
+  token inputs:wrapT = "repeat"
+  float2 inputs:st.connect = </AuthoredST/Reader.outputs:result>
+  float3 outputs:rgb
+ }
+ def Shader "Reader" {
+  uniform token info:id = "UsdPrimvarReader_float2"
+  string inputs:varname = "st"
+
+  float2 outputs:result
+ }
+}
+
+def Material "MeshControl" {
+ token outputs:surface.connect = </MeshControl/Surface.outputs:surface>
+ def Shader "Surface" {
+  uniform token info:id = "UsdPreviewSurface"
+  color3f inputs:diffuseColor = (0,0,0)
+  color3f inputs:specularColor = (0,0,0)
+  int inputs:useSpecularWorkflow = 0
+  float inputs:roughness = 1
+  color3f inputs:emissiveColor.connect = </MeshControl/Texture.outputs:rgb>
+  token outputs:surface
+ }
+ def Shader "Texture" {
+  uniform token info:id = "UsdUVTexture"
+  asset inputs:file = @uv_grid.png@ (colorSpace = "sRGB")
+  token inputs:sourceColorSpace = "sRGB"
+  token inputs:wrapS = "repeat"
+  token inputs:wrapT = "repeat"
+  float2 inputs:st.connect = </MeshControl/Reader.outputs:result>
+  float3 outputs:rgb
+ }
+ def Shader "Reader" {
+  uniform token info:id = "UsdPrimvarReader_float2"
+  string inputs:varname = "st"
+
+  float2 outputs:result
+ }
+}
+
+def BasisCurves "RibbonUnconnected" (prepend apiSchemas = ["MaterialBindingAPI"]) {
+ uniform token type = "linear"
+ int[] curveVertexCounts = [2]
+ point3f[] points = [(0,3,0),(6,3,0)]
+ normal3f[] normals = [(0,0,1)] (interpolation = "constant")
+ float[] widths = [0.65] (interpolation = "constant")
+ bool doubleSided = true
+ rel material:binding = </Unconnected>
+
+}
+
+def BasisCurves "RibbonMissingST" (prepend apiSchemas = ["MaterialBindingAPI"]) {
+ uniform token type = "linear"
+ int[] curveVertexCounts = [2]
+ point3f[] points = [(0,1.5,0),(6,1.5,0)]
+ normal3f[] normals = [(0,0,1)] (interpolation = "constant")
+ float[] widths = [0.65] (interpolation = "constant")
+ bool doubleSided = true
+ rel material:binding = </MissingST>
+
+}
+
+def BasisCurves "RibbonReaderFallback" (prepend apiSchemas = ["MaterialBindingAPI"]) {
+ uniform token type = "linear"
+ int[] curveVertexCounts = [2]
+ point3f[] points = [(0,0,0),(6,0,0)]
+ normal3f[] normals = [(0,0,1)] (interpolation = "constant")
+ float[] widths = [0.65] (interpolation = "constant")
+ bool doubleSided = true
+ rel material:binding = </ReaderFallback>
+
+}
+
+def BasisCurves "RibbonAuthoredST" (prepend apiSchemas = ["MaterialBindingAPI"]) {
+ uniform token type = "linear"
+ int[] curveVertexCounts = [2]
+ point3f[] points = [(0,-1.5,0),(6,-1.5,0)]
+ normal3f[] normals = [(0,0,1)] (interpolation = "constant")
+ float[] widths = [0.65] (interpolation = "constant")
+ bool doubleSided = true
+ rel material:binding = </AuthoredST>
+ texCoord2f[] primvars:st = [(0.1,0.25),(0.9,0.75)] (interpolation = "vertex")
+}
+
+def Mesh "Control" (prepend apiSchemas = ["MaterialBindingAPI"]) {
+ uniform token subdivisionScheme = "none"
+ int[] faceVertexCounts = [4]
+ int[] faceVertexIndices = [0,1,2,3]
+ point3f[] points = [(0,-3.325,0),(6,-3.325,0),(6,-2.675,0),(0,-2.675,0)]
+ texCoord2f[] primvars:st = [(0,0),(1,0),(1,1),(0,1)] (interpolation = "vertex")
+ rel material:binding = </MeshControl>
+ bool doubleSided = true
+}

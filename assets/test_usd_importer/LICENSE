@@ -3,8 +3,11 @@ Licensed under Apache 2.0 license (https://www.apache.org/licenses/LICENSE-2.0.t
 
 This notice applies only to the following files in this directory:
 - test_camera.usda
+- test_additional_geometry_properties.usda
 - test_curves.usda
 - test_lights.usda
+- materialx_pref.usda
+- materialx_texcoord_1.usda
 - test_scope_materials.usda
 - test_usdpreviewsurface_material_input.usda
 

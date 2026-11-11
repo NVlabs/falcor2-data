@@ -1,0 +1,39 @@
+#usda 1.0
+(metersPerUnit = 1
+ upAxis = "Y")
+
+def BasisCurves "FlatJoints" {
+ uniform token type = "linear"
+ int[] curveVertexCounts = [4]
+ point3f[] points = [(0, 3, 0),(4, 3, 0),(4, 3.8, 0),(8, 3.8, 0)]
+ normal3f[] normals = [(0, 0, 1),(0, 0, 1),(0, 0, 1),(0, 0, 1)] (interpolation = "vertex")
+ float[] widths = [0.5] (interpolation = "constant")
+ bool doubleSided = true
+}
+
+def BasisCurves "TwistedJoints" {
+ uniform token type = "linear"
+ int[] curveVertexCounts = [4]
+ point3f[] points = [(0, 0, 0),(4, 0, 0),(4, 0.8, 0),(8, 0.8, 0)]
+ normal3f[] normals = [(0, 0, 1),(0, -0.7, 0.7),(0, -0.7, 0.7),(0, 0, 1)] (interpolation = "vertex")
+ float[] widths = [0.5] (interpolation = "constant")
+ bool doubleSided = true
+}
+
+def BasisCurves "RepairedJoints" {
+ uniform token type = "linear"
+ int[] curveVertexCounts = [4]
+ point3f[] points = [(0, -3, 0),(4, -3, 0),(4, -2.2, 0),(8, -2.2, 0)]
+ normal3f[] normals = [(0, 0, 1),(0, 0, 0),(0, 0, 0),(0, 0, 1)] (interpolation = "vertex")
+ float[] widths = [0.5] (interpolation = "constant")
+ bool doubleSided = true
+}
+
+def BasisCurves "SharpJoints" {
+ uniform token type = "linear"
+ int[] curveVertexCounts = [4]
+ point3f[] points = [(0, -6, 0),(6, -6, 0),(4, -5.4, 0),(8, -5.4, 0)]
+ normal3f[] normals = [(0, 0, 1),(0, 0, 1),(0, 0, 1),(0, 0, 1)] (interpolation = "vertex")
+ float[] widths = [0.5] (interpolation = "constant")
+ bool doubleSided = true
+}
