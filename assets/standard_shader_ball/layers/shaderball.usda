@@ -141,6 +141,7 @@ def Xform "standard_shader_ball_scene" (
                 def Shader "open_pbr_surface1"
                 {
                     uniform token info:id = "ND_open_pbr_surface_surfaceshader"
+                    color3f inputs:base_color.connect = </standard_shader_ball_scene/materials/neutral/mtlx/mtlximage1.outputs:out>
                     float inputs:emission_luminance.connect = </standard_shader_ball_scene/materials/neutral/mtlx/mtlxextract1.outputs:out>
                     color3f inputs:emission_color.connect = </standard_shader_ball_scene/materials/neutral/mtlx/mtlxconvert1.outputs:out>
                     float inputs:specular_weight = 0 
